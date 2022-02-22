@@ -226,7 +226,7 @@ export default function Keyboard(props) {
   );
 }
 function LetterKey({ letter, keyPressed, correct }) {
-  const pressed = keyPressed === letter.toLowerCase();
+  const pressed = keyPressed.toLowerCase() === letter;
  
   let className = "key letter";
   if (pressed) {
