@@ -1,153 +1,277 @@
 import { useState } from "react";
 
-
 export default function Keyboard(props) {
-    console.log(props.keyPressed);
-    const [keyPressed, correct]=props.keyPressed;
-    return(
-        <div className="keyboard">
-        <div className="key flex-2">
-            <span>~</span>
-            <span>.</span>
-        </div>
-        <div className="key flex-2">
-            <span>!</span>
-            <span>1</span>
-        </div>
-        <div className="key flex-2">
-            <span>@</span>
-            <span>2</span>
-        </div>
-        <div className="key flex-2">
-            <span>#</span>
-            <span>3</span>
-        </div>
-        <div className="key flex-2">
-            <span>$</span>
-            <span>4</span>
-        </div>
-        <div className="key flex-2">
-            <span>%</span>
-            <span>5</span>
-        </div>
-        <div className="key flex-2">
-            <span>^</span>
-            <span>6</span>
-        </div>
-        <div className="key flex-2">
-            <span>&</span>
-            <span>7</span>
-        </div>
-        <div className="key flex-2">
-            <span>*</span>
-            <span>8</span>
-        </div>
-        <div className="key flex-2">
-            <span>(</span>
-            <span>9</span>
-        </div>
-        <div className="key flex-2">
-            <span>)</span>
-            <span>0</span>
-        </div>
-        <div className="key flex-2">
-            <span>_</span>
-            <span>-</span>
-        </div>
-        <div className="key flex-2">
-            <span>+</span>
-            <span>=</span>
-        </div>
-        <div className="key span-lg flex-down">backspace</div>
-        {/* <!-- row 2 --> */}
-        <div className="key span-lg flex-down">tab</div>
-        <LetterKey letter='a' keyPressed={keyPressed} correct={correct}/>
-        <div className="key letter">w</div>
-        <div className="key letter">e</div>
-        <div className="key letter">r</div>
-        <div className="key letter">t</div>
-        <div className="key letter">y</div>
-        <div className="key letter">u</div>
-        <div className="key letter">i</div>
-        <div className="key letter">0</div>
-        <div className="key letter">p</div>
-        <div className="key flex-2">
-            <span>{'{'}</span>
-            <span>[</span>
-        </div>
-        <div className="key flex-2">
-            <span>{'}'}</span>
-            <span>]</span>
-        </div>
+  console.log(props.keyPressed);
+  const [keyPressed, correct] = props.keyPressed;
+  return (
+    <div className="keyboard">
+      <TwoCharacterKey
+        letters={["~", "`"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["!", "1"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["@", "2"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["#", "3"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["$", "4"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["%", "5"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["^", "6"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["&", "7"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["*", "8"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["(", "9"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={[")", "0"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["_", "-"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["+", "="]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <CustomCharacterKey
+        classNames="key span-lg flex-down "
+        name="backspace"
+        representation={"backspace"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
 
-        <div className="key flex-2">
-            <span>|</span>
-            <span>\</span>
-        </div>
-        {/* <!-- row 3 --> */}
-        <div className="key span-xl flex-down"> caps lock</div>
-        <div className="key letter">a</div>
-        <div className="key letter">s</div>
-        <div className="key letter">d</div>
-        <div className="key letter">f</div>
-        <div className="key letter">g</div>
-        <div className="key letter">h</div>
-        <div className="key letter">j</div>
-        <div className="key letter">k</div>
-        <div className="key letter">l</div>
-        <div className="key flex-2">
-            <span>:</span>
-            <span>;</span>
-        </div>
-        <div className="key flex-2">
-            <span>"</span>
-            <span>'</span>
-        </div>
-        <div className="key span-xl flex-down right">enter</div>
-        {/* <!-- row 4 --> */}
-        <div className="key span-xxl flex-down">shift</div>
-        <div className="key letter">z</div>
-        <div className="key letter">x</div>
-        <div className="key letter">c</div>
-        <div className="key letter">v</div>
-        <div className="key letter">b</div>
-        <div className="key letter">n</div>
-        <div className="key letter">m</div>
-        <div className="key flex-2">
-            <span>{'<'}</span>
-            <span>,</span>
-        </div>
-        <div className="key flex-2 correct">
-            <span>{'>'}</span>
-            <span>.</span>
-        </div>
-        <div className="key flex-2">
-            <span>?</span>
-            <span>/</span>
-        </div>
-        <div className="key span-xxl flex-down right wrong">shift</div>
-        {/* <!-- row 5 --> */}
-        <div className="key span-sxl flex-down">control</div>
-        <div className="key span-xl flex-down center">option</div>
-        <div className="key span-xxxxl flex-down">space</div>
-        <div className="key span-xl flexdown center">option</div>
-        <div className="key span-xxxl flexdown right">control</div>
+      {/* <!-- row 2 --> */}
+      <CustomCharacterKey
+        classNames="key span-lg flex-down "
+        name="tab"
+        representation={"tab"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
 
+      <LetterKey letter="q" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="w" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="e" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="r" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="t" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="y" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="u" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="i" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="o" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="p" keyPressed={keyPressed} correct={correct} />
+      <TwoCharacterKey
+        letters={["{", "["]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["}", "]"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["|", "\\"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      {/* <!-- row 3 --> */}
+      <CustomCharacterKey
+        classNames="key span-xl flex-down "
+        name="caps lock"
+        representation={"caps lock"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <LetterKey letter="a" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="s" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="d" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="f" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="g" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="h" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="j" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="k" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="l" keyPressed={keyPressed} correct={correct} />
+      <TwoCharacterKey
+        letters={[":", ";"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={['"', "'"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+
+      <CustomCharacterKey
+        classNames="key span-xl flex-down right "
+        name="enter"
+        representation={"enter"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      {/* <!-- row 4 --> */}
+      <CustomCharacterKey
+        classNames="key span-xxl flex-down "
+        name="shift"
+        representation={"shift"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+
+      <LetterKey letter="z" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="x" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="c" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="v" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="b" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="n" keyPressed={keyPressed} correct={correct} />
+      <LetterKey letter="m" keyPressed={keyPressed} correct={correct} />
+      <TwoCharacterKey
+        letters={["<", ","]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={[">", "."]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <TwoCharacterKey
+        letters={["?", "/"]}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+
+      <CustomCharacterKey
+        classNames="key span-xxl flex-down right "
+        name="shift"
+        representation={"shift"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      {/* <!-- row 5 --> */}
+      <CustomCharacterKey
+        classNames="key span-sxl flex-down right "
+        name="control"
+        representation={"control"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <CustomCharacterKey
+        classNames="key span-xl flex-down center "
+        name="option"
+        representation={"option"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <CustomCharacterKey
+        classNames="key span-xxxxl flex-down"
+        name="space"
+        representation={" "}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <CustomCharacterKey
+        classNames="key span-xl flex-down center "
+        name="option"
+        representation={"option"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
+      <CustomCharacterKey
+        classNames="key span-xxxl flex-down right "
+        name="control"
+        representation={"control"}
+        keyPressed={keyPressed}
+        correct={correct}
+      />
     </div>
-    )
+  );
 }
-function LetterKey({letter,keyPressed, correct}) {
-    const pressed=keyPressed==='a'
-    console.log(pressed);
- let className='key letter';
-    if(pressed) {
-
-        if (correct) {
-            className='key letter correct';
-        }
-        else {
-            className='key letter wrong';
-        }
+function LetterKey({ letter, keyPressed, correct }) {
+  const pressed = keyPressed === letter;
+  console.log(pressed);
+  let className = "key letter";
+  if (pressed) {
+    if (correct) {
+      className = "key letter correct";
+    } else {
+      className = "key letter wrong";
     }
- return <div className={className}>{letter}</div>
+  }
+  return <div className={className}>{letter}</div>;
+}
+function TwoCharacterKey({ letters, keyPressed, correct }) {
+  const pressed = letters.join("").indexOf(keyPressed) > 0;
+
+  let className = "key flex-2";
+  if (pressed) {
+    if (correct) {
+      className = "key flex-2 correct";
+    } else {
+      className = "key flex-2 wrong";
+    }
+  }
+  return (
+    <div className={className}>
+      <span>{letters[0]}</span>
+      <span>{letters[1]}</span>
+    </div>
+  );
+}
+function CustomCharacterKey({
+  classNames,
+  name,
+  representation,
+  keyPressed,
+  correct,
+}) {
+  const pressed = keyPressed === representation;
+  let finalClassNames = classNames;
+  if (pressed) {
+    if (correct) {
+      finalClassNames = classNames + " correct";
+    } else {
+      finalClassNames = classNames + " wrong";
+    }
+  }
+
+  return <div className={finalClassNames}>{name}</div>;
 }
