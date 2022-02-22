@@ -148,13 +148,7 @@ export default function Keyboard(props) {
         correct={correct}
       />
       {/* <!-- row 4 --> */}
-      <CustomCharacterKey
-        classNames="key span-xxl flex-down "
-        name="shift"
-        representation={"shift"}
-        keyPressed={keyPressed}
-        correct={correct}
-      />
+      <LeftShiftKey keyPressed={keyPressed} correct={correct}/>
 
       <LetterKey letter="z" keyPressed={keyPressed} correct={correct} />
       <LetterKey letter="x" keyPressed={keyPressed} correct={correct} />
@@ -179,10 +173,7 @@ export default function Keyboard(props) {
         correct={correct}
       />
 
-      <CustomCharacterKey
-        classNames="key span-xxl flex-down right "
-        name="shift"
-        representation={"shift"}
+      <RightShiftKey
         keyPressed={keyPressed}
         correct={correct}
       />
@@ -227,6 +218,7 @@ export default function Keyboard(props) {
 }
 function LetterKey({ letter, keyPressed, correct }) {
   const pressed = keyPressed.toLowerCase() === letter;
+  
  
   let className = "key letter";
   if (pressed) {
@@ -273,6 +265,47 @@ function CustomCharacterKey({
       finalClassNames = classNames + " wrong";
     }
   }
-
+  
   return <div className={finalClassNames}>{name}</div>;
 }
+
+function LeftShiftKey({keyPressed,correct}){
+    const leftShiftKeyReach=['!','@','#','$','%','^','Q','W','E','R','T','Y','A','S','D','F','G','Z','X','C','V','B'];
+    const pressed=leftShiftKeyReach.join("").indexOf(keyPressed) >= 0
+    const classNames="key span-xxl flex-down"
+    let finalClassNames=classNames
+    if (pressed) {
+      if (correct) {
+        finalClassNames = classNames + " correct";
+      } else {
+        finalClassNames = classNames + " wrong";
+      }
+    }
+    return(
+        <div className={finalClassNames}>
+            shift
+        </div>
+    )
+
+}
+function RightShiftKey({keyPressed,correct}){
+    const rightShiftKeyReach=['&','*','(',')','_','+','H','J','K','L',':','"','N','M','<','>','?'];
+    const pressed=rightShiftKeyReach.join("").indexOf(keyPressed) >= 0
+    const classNames="key span-xxl flex-down right"
+    let finalClassNames=classNames
+    if (pressed) {
+      if (correct) {
+        finalClassNames = classNames + " correct";
+      } else {
+        finalClassNames = classNames + " wrong";
+      }
+    }
+    return(
+        <div className={finalClassNames}>
+            shift
+        </div>
+    )
+
+}
+
+// @ts-ignore
