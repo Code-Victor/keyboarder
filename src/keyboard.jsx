@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export default function Keyboard(props) {
-  console.log(props.keyPressed);
+  
   const [keyPressed, correct] = props.keyPressed;
   return (
     <div className="keyboard">
@@ -226,8 +226,8 @@ export default function Keyboard(props) {
   );
 }
 function LetterKey({ letter, keyPressed, correct }) {
-  const pressed = keyPressed === letter;
-  console.log(pressed);
+  const pressed = keyPressed === letter.toLowerCase();
+ 
   let className = "key letter";
   if (pressed) {
     if (correct) {
@@ -239,7 +239,8 @@ function LetterKey({ letter, keyPressed, correct }) {
   return <div className={className}>{letter}</div>;
 }
 function TwoCharacterKey({ letters, keyPressed, correct }) {
-  const pressed = letters.join("").indexOf(keyPressed) > 0;
+  const pressed = letters.join("").indexOf(keyPressed) >= 0;
+
 
   let className = "key flex-2";
   if (pressed) {
