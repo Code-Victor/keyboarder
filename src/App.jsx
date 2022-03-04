@@ -1,36 +1,68 @@
+import { Result } from "./result";
 import { useEffect, useRef, useState } from "react";
 import "./App.css";
 import Keyboard from "./keyboard";
+import Navbar from "./navbar";
+import Hey from "../hey";
 
 function insert(str, index, value) {
   return str.substr(0, index) + value + str.substr(index);
 }
-const data =
-  "The Lord is My Shepard I Shall Not Want";
+const datum = "The Lord👋";
 function App() {
-  const [index, setIndex] = useState(0);//gives the index of the cursor
+  const [data, setData] = useState(datum);
+  const [index, setIndex] = useState(0); //gives the index of the cursor
   const [error, setError] = useState(false);
-  const [noError, setNoError] = useState(0);//gives the number of typos made
-  const [keyPressed,setKeyPressed]=useState('null')
-  
+  const [focused, setFocused] = useState(false);
+  const [noError, setNoError] = useState(0); //gives the number of typos made
+  const [keyPressed, setKeyPressed] = useState("null");
+
   const [time, setTime] = useState(0);
   const [countdown, setCountdown] = useState(5);
   const [startCountDown, setStartCountDown] = useState(false);
   const inputRef = useRef(null); //for the input field
   const startRef = useRef(null); // for the countdown div
+  const blurRef = useRef(null); // for the countdown div
+  const startButtonRef = useRef(null); // for the startButton
   const slashInserted = insert(data, index, "|").split("|");
   const greyText = slashInserted[0];
   const greenText = slashInserted[1];
   const done = index === data.length; // checks if the user is done typing
   const characterNo = data.split(" ").join("").length;
-  const wordNo=data.split(" ").length;
-  const currentCharacter=data[index]
+  const wordNo = data.split(" ").length;
+  const currentCharacter = data[index];
+  console.log(focused);
+  function onFocus() {
+    setFocused(true);
+    console.log("focused");
+  }
+  //function to fetches bible verses from an public api
+  async function fetchBibleVerse() {
+    const response = await fetch("");
+  }
+  function onBlur() {
+    setFocused(false);
+    blurRef.current.style.display = "block";
+    console.log("blurred");
+  }
   function handleStart() {
-    
+    inputRef.current.focus()
+    setFocused(true);
     setStartCountDown((countdown) => !countdown);
+    startButtonRef.current.style.display = "none";
     setTimeout(() => {
       startRef.current.style.display = "none";
     }, 9000);
+  }
+  function restart() {
+    setIndex(0);
+    setTime(0);
+    setNoError(0);
+    startButtonRef.current.style.display = "block";
+    setKeyPressed("null")
+    setStartCountDown(false);
+    setCountdown(5);
+    setFocused(false);
   }
   function getAccuracy() {
     const percentageError = (noError / characterNo) * 100;
@@ -47,8 +79,16 @@ function App() {
     const wpm = wordNo / minutesUsed;
     return wpm.toFixed(1);
   }
+  async function getQuotes() {
+    const response = await fetch(
+      "https://api.quotable.io/random?maxLength=50?minLength=20"
+    );
+    const data = await response.json();
+    setData(data.content + " " + data.author);
+    restart();
+  }
   function handleKeyPress(e) {
-    setKeyPressed(e.key)
+    setKeyPressed(e.key);
     console.log("pressed");
     if (e.key === currentCharacter) {
       setError(false);
@@ -59,14 +99,14 @@ function App() {
     }
   }
   useEffect(() => {
-    if (!done && countdown === 0) {
+    if (!done && countdown === 0 && focused) {
       console.log("executed");
       const timer = setInterval(() => {
         setTime((time) => time + 1);
       }, 1000);
       return () => clearInterval(timer);
     }
-  }, [done, countdown]);
+  }, [done, countdown, focused]);
   useEffect(() => {
     if (startCountDown) {
       console.log("executed2");
@@ -76,47 +116,75 @@ function App() {
         }, 1000);
         return () => clearInterval(timer);
       }
-      if(countdown===0){
+      if (countdown === 0) {
         inputRef.current.focus();
+        setFocused(true);
       }
     }
   }, [startCountDown, countdown]);
+
+
+  function Typeface() {
+    let className="";
+    error?className+="animated-red":className+="";
+    focused&&!done?className+=" blink":className+="";
+    let finished=done?"none":"";
+    return <p onClick={() => inputRef.current.focus()} className={"type-text " + finished}>
+      <div
+        className={(!focused) ?"blurred":"none"}
+        ref={blurRef}
+        onClick={() => {
+          console.log("blur clicked");  
+          inputRef.current.focus();
+          setFocused(true);
+        
+        } }
+      >
+        <p>click to activate</p>
+      </div>
+      <span className="greyd-text">{greyText}</span>
+      <span className={className}>|</span>
+      <span>{greenText}</span>
+    </p>;
+  }
   return (
     <div className="App">
+      <Navbar/>
       <header className="App-header">
-        <h1 className="animated-red">{noError}</h1>
-        <h1>total time: {time}</h1>
-
-        <button onClick={() => handleStart()}>Start</button>
-        {startCountDown && (
-          <div ref={startRef}>
-            {countdown === 0 ? <h1>Start</h1> : countdown}
-          </div>
-        )}
-        {done && (
-          <div>
-            <h1>your speed is {getWpm()} WPM</h1>
-            <h1>your accuracy is {getAccuracy()}%</h1>
-          </div>
-        )}
-        <p>
-          <span className="greyd-text">{greyText}</span>
-          <span className={error ? "animated-red" : ""}>|</span>
-          <span>{greenText}</span>
-        </p>
+        <Typeface/>
+        <Result
+          noError={noError}
+          time={time}
+          handleStart={handleStart}
+          startButtonRef={startButtonRef}
+          startCountDown={startCountDown}
+          startRef={startRef}
+          countdown={countdown}
+          done={done}
+          getWpm={getWpm}
+          getAccuracy={getAccuracy}
+        />
         <input
           type="text"
-          disabled={!(countdown===0)}
-          
+          disabled={!(countdown === 0)||done}
+          onBlur={onBlur}
+          onFocus={onFocus}
           onKeyPress={(e) => {
             handleKeyPress(e);
           }}
+          className={done?"input-field none":"input-field"}
           ref={inputRef}
         />
-        <Keyboard keyPressed={[keyPressed,keyPressed===data[index-1]]}/>
+        <div className="flex">
+          <button onClick={getQuotes}>generate texts</button>
+          <button onClick={restart}>restart</button>
+        </div>
+        <Keyboard keyPressed={[keyPressed, keyPressed === data[index - 1]]} display={done} />
       </header>
+      <Hey/>
     </div>
   );
+
 }
 
 export default App;

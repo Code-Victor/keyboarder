@@ -4,7 +4,7 @@ export default function Keyboard(props) {
   
   const [keyPressed, correct] = props.keyPressed;
   return (
-    <div className="keyboard">
+    <div className={props.display?"none":"keyboard"} >
       <TwoCharacterKey
         letters={["~", "`"]}
         keyPressed={keyPressed}
@@ -143,7 +143,7 @@ export default function Keyboard(props) {
       <CustomCharacterKey
         classNames="key span-xl flex-down right "
         name="enter"
-        representation={"enter"}
+        representation={"Enter"}
         keyPressed={keyPressed}
         correct={correct}
       />
