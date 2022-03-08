@@ -5,10 +5,13 @@ import Keyboard from "./keyboard";
 import Navbar from "./navbar";
 import Hey from "../hey";
 
+
 function insert(str, index, value) {
   return str.substr(0, index) + value + str.substr(index);
 }
-const datum = "The Lord👋";
+
+const datum =
+  "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis deleniti ea odio a sunt dolore.";
 function App() {
   const [data, setData] = useState(datum);
   const [index, setIndex] = useState(0); //gives the index of the cursor
@@ -31,22 +34,16 @@ function App() {
   const characterNo = data.split(" ").join("").length;
   const wordNo = data.split(" ").length;
   const currentCharacter = data[index];
-  console.log(focused);
   function onFocus() {
     setFocused(true);
-    console.log("focused");
   }
-  //function to fetches bible verses from an public api
-  async function fetchBibleVerse() {
-    const response = await fetch("");
-  }
+
   function onBlur() {
     setFocused(false);
     blurRef.current.style.display = "block";
-    console.log("blurred");
   }
   function handleStart() {
-    inputRef.current.focus()
+    inputRef.current.focus();
     setFocused(true);
     setStartCountDown((countdown) => !countdown);
     startButtonRef.current.style.display = "none";
@@ -59,7 +56,7 @@ function App() {
     setTime(0);
     setNoError(0);
     startButtonRef.current.style.display = "block";
-    setKeyPressed("null")
+    setKeyPressed("null");
     setStartCountDown(false);
     setCountdown(5);
     setFocused(false);
@@ -89,7 +86,6 @@ function App() {
   }
   function handleKeyPress(e) {
     setKeyPressed(e.key);
-    console.log("pressed");
     if (e.key === currentCharacter) {
       setError(false);
       setIndex(index + 1);
@@ -100,7 +96,6 @@ function App() {
   }
   useEffect(() => {
     if (!done && countdown === 0 && focused) {
-      console.log("executed");
       const timer = setInterval(() => {
         setTime((time) => time + 1);
       }, 1000);
@@ -109,7 +104,6 @@ function App() {
   }, [done, countdown, focused]);
   useEffect(() => {
     if (startCountDown) {
-      console.log("executed2");
       if (countdown > 0) {
         const timer = setInterval(() => {
           setCountdown((time) => time - 1);
@@ -123,35 +117,39 @@ function App() {
     }
   }, [startCountDown, countdown]);
 
-
   function Typeface() {
-    let className="";
-    error?className+="animated-red":className+="";
-    focused&&!done?className+=" blink":className+="";
-    let finished=done?"none":"";
-    return <p onClick={() => inputRef.current.focus()} className={"type-text " + finished}>
-      <div
-        className={(!focused) ?"blurred":"none"}
-        ref={blurRef}
-        onClick={() => {
-          console.log("blur clicked");  
-          inputRef.current.focus();
-          setFocused(true);
-        
-        } }
+    let className = "";
+    error ? (className += "animated-red") : (className += "");
+    focused && !done ? (className += " blink") : (className += "");
+    let finished = done ? "none" : "";
+    return (
+      <p
+        onClick={() => inputRef.current.focus()}
+        className={"type-text " + finished}
       >
-        <p>click to activate</p>
-      </div>
-      <span className="greyd-text">{greyText}</span>
-      <span className={className}>|</span>
-      <span>{greenText}</span>
-    </p>;
+        <div
+          className={!focused ? "blurred" : "none"}
+          ref={blurRef}
+          onClick={() => {
+            console.log("blur clicked");
+            inputRef.current.focus();
+            setFocused(true);
+          }}
+        >
+          <p>click to activate</p>
+        </div>
+        <span className="greyd-text">{greyText}</span>
+        <span className={className}>|</span>
+        <span>{greenText}</span>
+      </p>
+    );
   }
+
   return (
     <div className="App">
-      <Navbar/>
+      <Navbar />
       <header className="App-header">
-        <Typeface/>
+        <Typeface />
         <Result
           noError={noError}
           time={time}
@@ -166,25 +164,27 @@ function App() {
         />
         <input
           type="text"
-          disabled={!(countdown === 0)||done}
+          disabled={!(countdown === 0) || done}
           onBlur={onBlur}
           onFocus={onFocus}
           onKeyPress={(e) => {
             handleKeyPress(e);
           }}
-          className={done?"input-field none":"input-field"}
+          className={done ? "input-field none" : "input-field"}
           ref={inputRef}
         />
         <div className="flex">
           <button onClick={getQuotes}>generate texts</button>
           <button onClick={restart}>restart</button>
         </div>
-        <Keyboard keyPressed={[keyPressed, keyPressed === data[index - 1]]} display={done} />
+        <Keyboard
+          keyPressed={[keyPressed, keyPressed === data[index - 1]]}
+          display={done}
+        />
       </header>
-      <Hey/>
+      <Hey />
     </div>
   );
-
 }
 
 export default App;
