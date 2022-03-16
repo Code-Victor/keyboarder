@@ -1,10 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
-export default function Keyboard(props) {
-  
+function Keyboard(props) {
   const [keyPressed, correct] = props.keyPressed;
   return (
-    <div className={props.display?"none":"keyboard"} >
+    <div className={props.display ? "none" : "keyboard"}>
       <TwoCharacterKey
         letters={["~", "`"]}
         keyPressed={keyPressed}
@@ -148,7 +147,7 @@ export default function Keyboard(props) {
         correct={correct}
       />
       {/* <!-- row 4 --> */}
-      <LeftShiftKey keyPressed={keyPressed} correct={correct}/>
+      <LeftShiftKey keyPressed={keyPressed} correct={correct} />
 
       <LetterKey letter="z" keyPressed={keyPressed} correct={correct} />
       <LetterKey letter="x" keyPressed={keyPressed} correct={correct} />
@@ -173,10 +172,7 @@ export default function Keyboard(props) {
         correct={correct}
       />
 
-      <RightShiftKey
-        keyPressed={keyPressed}
-        correct={correct}
-      />
+      <RightShiftKey keyPressed={keyPressed} correct={correct} />
       {/* <!-- row 5 --> */}
       <CustomCharacterKey
         classNames="key span-sxl flex-down right "
@@ -218,8 +214,7 @@ export default function Keyboard(props) {
 }
 function LetterKey({ letter, keyPressed, correct }) {
   const pressed = keyPressed.toLowerCase() === letter;
-  
- 
+
   let className = "key letter";
   if (pressed) {
     if (correct) {
@@ -232,7 +227,6 @@ function LetterKey({ letter, keyPressed, correct }) {
 }
 function TwoCharacterKey({ letters, keyPressed, correct }) {
   const pressed = letters.join("").indexOf(keyPressed) >= 0;
-
 
   let className = "key flex-2";
   if (pressed) {
@@ -265,47 +259,88 @@ function CustomCharacterKey({
       finalClassNames = classNames + " wrong";
     }
   }
-  
+
   return <div className={finalClassNames}>{name}</div>;
 }
 
-function LeftShiftKey({keyPressed,correct}){
-    const leftShiftKeyReach=['!','@','#','$','%','^','Q','W','E','R','T','Y','A','S','D','F','G','Z','X','C','V','B'];
-    const pressed=leftShiftKeyReach.join("").indexOf(keyPressed) >= 0
-    const classNames="key span-xxl flex-down"
-    let finalClassNames=classNames
-    if (pressed) {
-      if (correct) {
-        finalClassNames = classNames + " correct";
-      } else {
-        finalClassNames = classNames + " wrong";
-      }
+function LeftShiftKey({ keyPressed, correct }) {
+  const leftShiftKeyReach = [
+    "!",
+    "@",
+    "#",
+    "$",
+    "%",
+    "^",
+    "Q",
+    "W",
+    "E",
+    "R",
+    "T",
+    "Y",
+    "A",
+    "S",
+    "D",
+    "F",
+    "G",
+    "Z",
+    "X",
+    "C",
+    "V",
+    "B",
+  ];
+  const pressed = leftShiftKeyReach.join("").indexOf(keyPressed) >= 0;
+  const classNames = "key span-xxl flex-down";
+  let finalClassNames = classNames;
+  if (pressed) {
+    if (correct) {
+      finalClassNames = classNames + " correct";
+    } else {
+      finalClassNames = classNames + " wrong";
     }
-    return(
-        <div className={finalClassNames}>
-            shift
-        </div>
-    )
-
+  }
+  return <div className={finalClassNames}>shift</div>;
 }
-function RightShiftKey({keyPressed,correct}){
-    const rightShiftKeyReach=['&','*','(',')','_','+','H','J','K','L',':','"','N','M','<','>','?'];
-    const pressed=rightShiftKeyReach.join("").indexOf(keyPressed) >= 0
-    const classNames="key span-xxl flex-down right"
-    let finalClassNames=classNames
-    if (pressed) {
-      if (correct) {
-        finalClassNames = classNames + " correct";
-      } else {
-        finalClassNames = classNames + " wrong";
-      }
+function RightShiftKey({ keyPressed, correct }) {
+  const rightShiftKeyReach = [
+    "&",
+    "*",
+    "(",
+    ")",
+    "_",
+    "+",
+    "H",
+    "J",
+    "K",
+    "L",
+    ":",
+    '"',
+    "N",
+    "M",
+    "<",
+    ">",
+    "?",
+  ];
+  const pressed = rightShiftKeyReach.join("").indexOf(keyPressed) >= 0;
+  const classNames = "key span-xxl flex-down right";
+  let finalClassNames = classNames;
+  if (pressed) {
+    if (correct) {
+      finalClassNames = classNames + " correct";
+    } else {
+      finalClassNames = classNames + " wrong";
     }
-    return(
-        <div className={finalClassNames}>
-            shift
-        </div>
-    )
-
+  }
+  return <div className={finalClassNames}>shift</div>;
 }
-
+function areEqual(prev, current) {
+  if (
+    prev.keyPressed[0] === current.keyPressed[0] &&
+    prev.keyPressed[1] === current.keyPressed[1] &&
+    prev.display === current.display
+  ) {
+    return true;
+  }
+  return false;
+}
+export default React.memo(Keyboard,areEqual );
 // @ts-ignore
