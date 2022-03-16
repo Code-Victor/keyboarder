@@ -25,7 +25,7 @@ export function Result({
           <h1>your speed is {getWpm()} WPM</h1>
           <h1>your accuracy is {getAccuracy()}%</h1>
           <h3 className="animated-red">Number of Errors made: {noError}</h3>
-          <h1>total time spent: {time}s</h1>
+          <h1>total time spent: {time.toFixed(1)}s</h1>
         </div>
       )}
     </>
