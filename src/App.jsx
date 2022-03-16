@@ -97,8 +97,8 @@ function App() {
   useEffect(() => {
     if (!done && countdown === 0 && focused) {
       const timer = setInterval(() => {
-        setTime((time) => time + 1);
-      }, 1000);
+        setTime((time) => time + 0.1);
+      }, 100);
       return () => clearInterval(timer);
     }
   }, [done, countdown, focused]);
@@ -123,7 +123,7 @@ function App() {
     focused && !done ? (className += " blink") : (className += "");
     let finished = done ? "none" : "";
     return (
-      <p
+      <div
         onClick={() => inputRef.current.focus()}
         className={"type-text " + finished}
       >
@@ -131,17 +131,18 @@ function App() {
           className={!focused ? "blurred" : "none"}
           ref={blurRef}
           onClick={() => {
-            console.log("blur clicked");
             inputRef.current.focus();
             setFocused(true);
           }}
         >
           <p>click to activate</p>
         </div>
-        <span className="greyd-text">{greyText}</span>
-        <span className={className}>|</span>
-        <span>{greenText}</span>
-      </p>
+        <p>
+          <span className="greyd-text">{greyText}</span>
+          <span className={className}>|</span>
+          <span>{greenText}</span>
+        </p>
+      </div>
     );
   }
 
